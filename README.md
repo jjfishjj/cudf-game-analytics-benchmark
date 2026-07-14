@@ -25,7 +25,21 @@ Google Colab（免費 T4 GPU）：
 1. 點上方 Colab badge
 2. Runtime → Change runtime type → **T4 GPU**
 3. `USE_GPU = False` 跑一次（CPU baseline）→ 重啟 → `USE_GPU = True` 再跑一次
-4. 對比各步驟計時
+4. 對比各步驟計時（最後一個 cell 會自動畫出加速比長條圖）
+
+## 本機參考基準（真實數字）
+
+以下是在 **Apple Silicon（本機 pandas）** 上實跑 2,000 萬筆事件的計時，僅作 pandas 端的合理性參考。
+**注意：這不是 Colab CPU 數字** — Colab 免費層是 2-vCPU，通常比現代筆電慢，所以 GPU 加速比要以「同一台 Colab 機器」的 CPU vs GPU 為準（用上方 notebook 產生）。
+
+| 步驟 | pandas（本機 Apple Silicon） |
+|------|------------------------------|
+| RFM 分群（20M rows） | 2.42 s |
+| 留存 cohort | 5.85 s |
+| 付費漏斗 | 12.30 s |
+| **分析合計** | **20.57 s** |
+
+> 20 秒是「一次分析」的等待。營運日常要反覆改條件重跑 —— 這正是 GPU 把「等 20 秒」變「即時」的價值所在。GPU 欄位待 Colab 實跑後由 notebook 自動補上。
 
 ## Key insight（PM 視角）
 
