@@ -1,0 +1,10 @@
+theme: jekyll-theme-cayman
+title: cudf game analytics benchmark
+description: >-
+  Game-ops analytics (RFM/retention/funnel) on 20M events: pandas vs RAPIDS cudf.pandas, zero code change
+exclude:
+  - venv
+  - node_modules
+  - "*.py"
+  - "*.usda"
+  - requirements.txt
