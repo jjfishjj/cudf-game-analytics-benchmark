@@ -6,6 +6,8 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/jjfishjj/cudf-game-analytics-benchmark/blob/main/notebooks/game_analytics_benchmark.ipynb)
 
+**Interactive decision lab:** <https://huggingface.co/spaces/junbin666/cudf-game-analytics-benchmark>
+
 ## 實測結果 1:天真的 pandas 分析(Colab，同機 CPU vs T4 GPU)
 
 | 步驟 | pandas CPU | cudf.pandas GPU | 結果 |
