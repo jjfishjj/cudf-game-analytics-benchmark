@@ -36,6 +36,8 @@ The runner reports data construction/setup separately from operation timings. Th
 
 This repository previously contained illustrative Colab timing values and blank 50-million-row fields, but did not preserve raw samples or a pinned runtime. Those figures are not presented as a reproducible benchmark here. The standardized runner has been added and can be smoke-tested on CPU; this execution environment has no NVIDIA GPU or CUDA tools, so no GPU result is claimed. Run the GPU command on a compatible NVIDIA machine to produce a real, schema-conforming cuDF result.
 
+The original RFM, retention, and funnel exploration is preserved in [`notebooks/game_analytics_legacy.ipynb`](notebooks/game_analytics_legacy.ipynb) as historical, unpinned work; its hard-coded figures are not reproducible results.
+
 ## Shared format and validation
 
 Each benchmark repository will carry the same `benchmark-results.schema.json` and use the same environment/result rules. Validate results with the project tests:
