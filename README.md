@@ -32,6 +32,10 @@ uv run python benchmarks/run_benchmark.py --backend cpu --rows 20000 --dimension
 
 The runner reports data construction/setup separately from operation timings. The cuDF path synchronizes CUDA around each sample. The result JSON includes raw timing samples, summary statistics, input parameters, Git state, installed software versions, CUDA details, and GPU metadata.
 
+## Colab notebook
+
+Open [`notebooks/game_analytics_benchmark.ipynb`](notebooks/game_analytics_benchmark.ipynb) in Colab with a compatible GPU. It defaults to `main` after this change is merged; while reviewing an unmerged PR, set `BENCHMARK_REF` in the first cell to the PR branch. The exact checked-out commit is recorded in each JSON result.
+
 ## Results status
 
 This repository previously contained illustrative Colab timing values and blank 50-million-row fields, but did not preserve raw samples or a pinned runtime. Those figures are not presented as a reproducible benchmark here. The standardized runner has been added and can be smoke-tested on CPU; this execution environment has no NVIDIA GPU or CUDA tools, so no GPU result is claimed. Run the GPU command on a compatible NVIDIA machine to produce a real, schema-conforming cuDF result.
