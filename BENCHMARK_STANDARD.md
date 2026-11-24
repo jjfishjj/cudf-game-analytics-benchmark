@@ -1,11 +1,11 @@
 # Shared GPU benchmark standard (schema 1.0.0)
 
-This repository is the pilot for a common result contract used by the cuDF, CUDA Data Residency Lab, and TensorRT benchmark projects. Each repository stores a copy of `benchmark-results.schema.json` so that every result can be validated locally and consumed by the same downstream tooling.
+The cuDF repository is the pilot for a common result contract used by the cuDF, CUDA Data Residency Lab, and TensorRT benchmark projects. Each repository stores a copy of `benchmark-results.schema.json` so that every result can be validated locally and consumed by the same downstream tooling.
 
 ## Environment lock
 
 - Python: CPython 3.12.x.
-- GPU dataframe stack: `cudf-cu12==26.10.2` (CUDA 12 wheels); direct CPU dependencies and development tools are pinned in `pyproject.toml`, and `uv.lock` pins the complete resolved dependency graph, including wheel hashes.
+- GPU dataframe stack: `cudf-cu12==26.10.2` (CUDA 12 wheels); its direct CPU dependencies and development tools are pinned in the cuDF `pyproject.toml`, and the cuDF `uv.lock` pins that project’s complete resolved dependency graph, including wheel hashes. Each other project documents its own environment separately.
 - CUDA/cuDF results must record the actual CUDA runtime and driver, GPU model, compute capability, memory, and installed package versions. A version pin does not replace NVIDIA's host-driver/GPU prerequisites.
 - Use `uv sync --extra dev` for the CPU baseline and `uv sync --extra gpu --extra dev` for the GPU run. Do not silently change a lockfile to match a particular machine; if the compatible runtime changes, update the explicit environment metadata and lock together.
 
