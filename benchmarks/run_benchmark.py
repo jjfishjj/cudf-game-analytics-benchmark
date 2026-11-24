@@ -82,7 +82,18 @@ def gpu_metadata(cupy: Any | None) -> tuple[list[dict[str, Any]], str | None, st
             }
         )
     runtime = cuda_version_string(int(cupy.cuda.runtime.runtimeGetVersion()))
-    driver = cuda_version_string(int(cupy.cuda.runtime.driverGetVersion()))
+    # The CUDA driver API returns the highest supported CUDA version, not the
+    # installed NVIDIA driver release. Obtain that release from nvidia-smi.
+    try:
+        lines = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=10,
+        ).splitlines()
+        driver = lines[0].strip() if lines else None
+    except (OSError, subprocess.SubprocessError):
+        driver = None
     return devices, runtime, driver
 
 
@@ -119,6 +130,10 @@ def make_frames(rows: int, dimension_rows: int, seed: int, backend: Any) -> tupl
     else:
         facts = backend.from_pandas(facts_host)
         dimension = backend.from_pandas(dim_host)
+        # Include completed input transfers in setup, not in the first sample.
+        import cupy
+
+        cupy.cuda.runtime.deviceSynchronize()
     return facts, dimension, time.perf_counter() - started
 
 
