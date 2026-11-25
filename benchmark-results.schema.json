@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jjfishjj/cudf-game-analytics-benchmark/blob/main/benchmark-results.schema.json",
+  "title": "GPU Benchmark Result",
+  "description": "Portable result envelope shared by the cuDF, CUDA residency, and TensorRT benchmark repositories.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "benchmark_id",
+    "run_id",
+    "timestamp_utc",
+    "git",
+    "environment",
+    "parameters",
+    "measurements"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "benchmark_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "git": {
+      "type": "object",
+      "required": ["commit", "dirty"],
+      "properties": {
+        "commit": { "type": ["string", "null"] },
+        "dirty": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "environment": {
+      "type": "object",
+      "required": ["os", "architecture", "python", "software", "gpus"],
+      "properties": {
+        "os": { "type": "string" },
+        "os_release": { "type": ["string", "null"] },
+        "architecture": { "type": "string" },
+        "python": { "type": "string" },
+        "cuda_runtime": { "type": ["string", "null"] },
+        "cuda_driver": { "type": ["string", "null"] },
+        "software": { "type": "object", "additionalProperties": { "type": ["string", "null"] } },
+        "gpus": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["index", "name", "compute_capability", "memory_bytes"],
+            "properties": {
+              "index": { "type": "integer", "minimum": 0 },
+              "name": { "type": ["string", "null"] },
+              "compute_capability": { "type": ["string", "null"] },
+              "memory_bytes": { "type": ["integer", "null"], "minimum": 0 }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "parameters": { "type": "object" },
+    "measurements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["case_id", "backend", "status", "unit", "input_rows", "warmup_iterations", "samples", "statistics"],
+        "properties": {
+          "case_id": { "type": "string", "minLength": 1 },
+          "backend": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["completed", "skipped", "failed"] },
+          "unit": { "const": "seconds" },
+          "input_rows": { "type": "integer", "minimum": 0 },
+          "output_rows": { "type": ["integer", "null"], "minimum": 0 },
+          "warmup_iterations": { "type": "integer", "minimum": 0 },
+          "samples": { "type": "array", "items": { "type": "number", "minimum": 0 } },
+          "statistics": {
+            "type": "object",
+            "required": ["median", "mean", "stdev", "min", "max"],
+            "properties": {
+              "median": { "type": ["number", "null"], "minimum": 0 },
+              "mean": { "type": ["number", "null"], "minimum": 0 },
+              "stdev": { "type": ["number", "null"], "minimum": 0 },
+              "min": { "type": ["number", "null"], "minimum": 0 },
+              "max": { "type": ["number", "null"], "minimum": 0 }
+            },
+            "additionalProperties": true
+          },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}
